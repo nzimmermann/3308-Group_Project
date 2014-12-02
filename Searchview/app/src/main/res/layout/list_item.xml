@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp" >
-
-    <!-- Recipe Title Label -->
-
-    <TextView
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <TableRow>
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+        <!-- Recipe Title Label -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="2dip"
+            android:paddingTop="6dip"
+            android:textColor="#43bd00"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </TableRow>
+</TableLayout>
+<!---    <TextView
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -19,7 +29,6 @@
         android:textSize="16sp"
         android:textStyle="bold" />
 
-    <!-- Source URL label -->
     <TextView
         android:id="@+id/source_url"
         android:layout_width="fill_parent"
@@ -27,7 +36,6 @@
         android:paddingBottom="2dip"
         android:textColor="#acacac" />
 
-    <!-- Image URL label -->
     <TextView
         android:id="@+id/image_url"
         android:layout_width="wrap_content"
@@ -36,4 +44,4 @@
         android:textColor="#5d5d5d"
         android:textStyle="bold" />
 
-</LinearLayout>
+</LinearLayout> -->

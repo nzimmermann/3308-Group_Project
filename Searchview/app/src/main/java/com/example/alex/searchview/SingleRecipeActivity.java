@@ -22,16 +22,16 @@ public class SingleRecipeActivity extends Activity{
 
         // Get JSON values from previous intent
         String title = in.getStringExtra(TAG_TITLE);
-        String source = in.getStringExtra(TAG_SOURCE_URL);
-        String image = in.getStringExtra(TAG_IMAGE_URL);
+        //String source = in.getStringExtra(TAG_SOURCE_URL);
+        //String image = in.getStringExtra(TAG_IMAGE_URL);
 
         // Displaying all values on the screen
         TextView lblTitle = (TextView) findViewById(R.id.title);
-        TextView lblSource = (TextView) findViewById(R.id.source_url);
-        TextView lblImage = (TextView) findViewById(R.id.image_url);
+        //TextView lblSource = (TextView) findViewById(R.id.source_url);
+        //TextView lblImage = (TextView) findViewById(R.id.image_url);
 
         lblTitle.setText(title);
-        lblSource.setText(source);
-        lblImage.setText(image);
+        //lblSource.setText(source);
+        //lblImage.setText(image);
     }
 }

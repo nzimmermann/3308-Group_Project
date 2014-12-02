@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,10 +12,13 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,41 +43,22 @@ public class SearchableActivity extends ListActivity {
     private static final String TAG_SOURCE_URL = "Source URL";
     private static final String TAG_IMAGE_URL = "Image URL";
     private ProgressDialog pDialog;
-
-    ArrayList<HashMap<String, String>> recipeList;
+    Context context;
+    ListView lv;
+    ArrayList<String> recipeList;
+    ArrayList<String> imgList;
+    ArrayList<String> urlList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.w("myApp", "4");
         super.onCreate(savedInstanceState);
+        Log.w("myApp", "preContext");
         setContentView(R.layout.activity_results);
-        recipeList = new ArrayList<HashMap<String, String>>();
-
-        ListView lv = getListView();
-
-        // Listview on item click listener
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                int position, long id) {
-                // getting values from selected ListItem
-                String title = ((TextView) view.findViewById(R.id.title))
-                .getText().toString();
-                String source_url = ((TextView) view.findViewById(R.id.source_url))
-                .getText().toString();
-                String image_url = ((TextView) view.findViewById(R.id.image_url))
-                .getText().toString();
-
-                // Starting single contact activity
-                Intent in = new Intent(getApplicationContext(),
-                SingleRecipeActivity.class);
-                in.putExtra(TAG_TITLE, title);
-                in.putExtra(TAG_SOURCE_URL, source_url);
-                in.putExtra(TAG_IMAGE_URL, image_url);
-                startActivity(in);
-                }
-             });
+        recipeList = new ArrayList<String>();
+        imgList = new ArrayList<String>();
+        urlList = new ArrayList<String>();
+        context=this;
         handleIntent(getIntent());
     }
 
@@ -92,12 +77,6 @@ public class SearchableActivity extends ListActivity {
             //JSONObject results = ;
             //JavaHttpUrlConnectionReader search = new JavaHttpUrlConnectionReader();
             Log.w("myApp", "6");
-            int count = 0;
-            /*try {
-                count = results.getInt("count");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }*/
         }
 
 
@@ -176,10 +155,10 @@ public class SearchableActivity extends ListActivity {
                     String source_url = r.getString("source_url");
                     String title = r.getString("title");
                     HashMap<String, String> recipe = new HashMap<String, String>();
-                    recipe.put("image", image_url);
-                    recipe.put("source", source_url);
-                    recipe.put("title", title);
-                    recipeList.add(recipe);
+                    recipeList.add(title);
+                    Log.w("myApp", "Imageview");
+                    imgList.add(image_url);
+                    urlList.add(source_url);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -194,12 +173,8 @@ public class SearchableActivity extends ListActivity {
             // dismiss the dialog after getting all products
             pDialog.dismiss();
             Log.w("myApp", "Post Execute");
-            ListAdapter adapter = new SimpleAdapter(
-                    SearchableActivity.this, recipeList,
-                    R.layout.list_item, new String[] { "title", "source_url",
-                    "image_url" }, new int[] { R.id.title,
-                    R.id.source_url, R.id.image_url });
-            setListAdapter(adapter);
+            lv= getListView();
+            lv.setAdapter(new CustomAdapter(SearchableActivity.this, recipeList,imgList, urlList));
         }
     }
 }

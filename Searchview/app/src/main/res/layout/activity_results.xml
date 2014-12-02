@@ -7,7 +7,7 @@
     tools:context="com.example.alex.searchview.SearchableActivity">
 
     <ListView
-        android:id="@+id/android:list"
+        android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
 
