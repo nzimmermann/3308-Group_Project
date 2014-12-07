@@ -17,6 +17,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -36,9 +37,17 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+/**
+ * Searchable Activity used to load list layout and start searches.
+ *
+ * This Activity is run when a Search Intent is created from the searchview widget.
+ * This Activity handles searches and produces a listview with results.
+ *
+ * @author Alex Cordero
+ */
 public class SearchableActivity extends ListActivity {
 
+    /// These 3 Strings represent the strings in the JSON Object
     private static final String TAG_TITLE = "title";
     private static final String TAG_SOURCE_URL = "Source URL";
     private static final String TAG_IMAGE_URL = "Image URL";
@@ -48,44 +57,72 @@ public class SearchableActivity extends ListActivity {
     ArrayList<String> recipeList;
     ArrayList<String> imgList;
     ArrayList<String> urlList;
+    Boolean no_results = true;
+    String query;
 
     @Override
+    /**
+     * Creates the layout or reload it if savedInstanceState is not null
+     * This method also handles the Search Intent that initiated it.
+     *
+     * @param savedInstanceState The bundle to reload any past data in the activity initially null
+     *
+     */
     public void onCreate(Bundle savedInstanceState) {
-        Log.w("myApp", "4");
         super.onCreate(savedInstanceState);
-        Log.w("myApp", "preContext");
         setContentView(R.layout.activity_results);
-        recipeList = new ArrayList<String>();
-        imgList = new ArrayList<String>();
-        urlList = new ArrayList<String>();
         context=this;
         handleIntent(getIntent());
     }
 
     @Override
+    /**
+     *
+     * This method handles the Search Intent that initiated it.
+     *
+     * @param intent The intent that called Searchable Activity containing the necessary query
+     *
+     */
     protected void onNewIntent(Intent intent) {
-        Log.w("myApp", "9");
         handleIntent(intent);
     }
 
+    /**
+     *
+     * This method handles the Search Intent that initiated it.  And calls the API to produce a results of the query
+     *
+     * @param intent The intent that called Searchable Activity containing the necessary query
+     *
+     */
     private void handleIntent(Intent intent) {
-        Log.w("myApp", "5");
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            //use the query to search your data somehow
+            /// recipeList, imgList, and urlList are recreated here so that when a new page is requested the old page is replaced
+            recipeList = new ArrayList<String>();
+            imgList = new ArrayList<String>();
+            urlList = new ArrayList<String>();
+            query = intent.getStringExtra(SearchManager.QUERY);
+            //Call the API
             new APICall().execute(query);
-            //JSONObject results = ;
-            //JavaHttpUrlConnectionReader search = new JavaHttpUrlConnectionReader();
-            Log.w("myApp", "6");
         }
-
-
     }
+    /**
+     *
+     * APICall to call the api, gather results of the search and produce a listview
+     *
+     * This class APICall extends AsyncTask so it can operate on a seperate thread and not crash the GUI
+     *
+     *
+     */
     public class APICall extends AsyncTask<String, Void, Void>
     {
         Exception mException = null;
 
         @Override
+        /**
+         *
+         * This method creates a ProgressDialog so to alert the user that a search is occurring
+         *
+         */
         protected void onPreExecute()
         {
             super.onPreExecute();
@@ -94,16 +131,25 @@ public class SearchableActivity extends ListActivity {
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
-            Log.w("myApp", "PreExecute");
             super.onPreExecute();
             this.mException = null;
         }
 
+        /**
+         *
+         * This method executes the api call to food2fork with the search query
+         *
+         * It then produces a JSON object with the returned String and parses through the object
+         * to find each recipe title, image URL, and source URL
+         *
+         * @param params This is an array of strings that only contains the search query
+         *
+         */
         protected Void doInBackground(String... params)
         {
             String urlString = "http://food2fork.com/api/search?key=aaabb2f003cb88fe8e1a8858fc168c27&q=" + params[0];
-            HttpURLConnection urlConnection = null;
-            URL url = null;
+            HttpURLConnection urlConnection;
+            URL url;
             JSONObject object = null;
 
             try
@@ -115,66 +161,69 @@ public class SearchableActivity extends ListActivity {
                 urlConnection.setDoOutput(true);
                 urlConnection.setDoInput(true);
                 urlConnection.connect();
-                InputStream inStream = null;
-                Log.w("myApp", "Pre-Connection Check");
+                InputStream inStream;
                 inStream = urlConnection.getInputStream();
-                if(inStream == null){
-                    Log.w("myApp", "inStream isNull");
-                }
-                Log.w("myApp", "Post-Connection Check");
                 BufferedReader bReader = new BufferedReader(new InputStreamReader(inStream));
-                Log.w("myApp", "bReader Check");
                 String temp, response = "";
                 temp = bReader.readLine();
-                Log.w("myApp", temp);
                 while (temp != null){
                     response += temp;
                     temp = bReader.readLine();
-                    Log.w("myApp", "Responding...");
                 }
-                Log.w("myApp", "Finished Reading");
                 bReader.close();
                 inStream.close();
                 urlConnection.disconnect();
                 object = (JSONObject) new JSONTokener(response).nextValue();
+                if(object.getInt("count") != 0)
+                    no_results = false;
             }
             catch (Exception e)
             {
                 e.printStackTrace();
                 this.mException=e;
             }
-            //This is true
-            if(object == null){
-                Log.w("myApp", "Object isNull");
-            }
-            try {
-                JSONArray recipes = object.getJSONArray("recipes");
-                for(int i=1; i <= object.getInt("count");++i){
-                    JSONObject r = recipes.getJSONObject(i);
-                    String image_url = r.getString("image_url");
-                    String source_url = r.getString("source_url");
-                    String title = r.getString("title");
-                    HashMap<String, String> recipe = new HashMap<String, String>();
-                    recipeList.add(title);
-                    Log.w("myApp", "Imageview");
-                    imgList.add(image_url);
-                    urlList.add(source_url);
+            /// Only parse through the JSON Array if there are recipes in it
+            if(no_results == false) {
+                try {
+                    JSONArray recipes = object.getJSONArray("recipes");
+                    for (int i = 1; i <= object.getInt("count"); ++i) {
+                        JSONObject r = recipes.getJSONObject(i);
+                        String image_url = r.getString("image_url");
+                        String source_url = r.getString("source_url");
+                        String title = r.getString("title");
+                        //HashMap<String, String> recipe = new HashMap<String, String>();
+                        recipeList.add(title);
+                        Log.w("myApp", "Imageview");
+                        imgList.add(image_url);
+                        urlList.add(source_url);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
             return null;
         }
 
         @Override
+        /**
+         *
+         * This method dismisses the Progress Dialog.
+         * It also will return a ListView with results if there are in fact results.
+         * If there are no results the user will be alerted with a message on screen.
+         *
+         */
         protected void onPostExecute(Void result)
         {
             super.onPostExecute(result);
             // dismiss the dialog after getting all products
             pDialog.dismiss();
-            Log.w("myApp", "Post Execute");
-            lv= getListView();
-            lv.setAdapter(new CustomAdapter(SearchableActivity.this, recipeList,imgList, urlList));
+            if(!no_results) {
+                lv = getListView();
+                lv.setAdapter(new CustomAdapter(SearchableActivity.this, recipeList, imgList, urlList, query));
+            }
+            else{
+                Toast.makeText(context, "No Search Results Found", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
