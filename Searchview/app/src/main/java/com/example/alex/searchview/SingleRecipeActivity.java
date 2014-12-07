@@ -10,8 +10,6 @@ import android.widget.TextView;
  */
 public class SingleRecipeActivity extends Activity{
     private static final String TAG_TITLE = "title";
-    private static final String TAG_SOURCE_URL = "Source URL";
-    private static final String TAG_IMAGE_URL = "Image URL";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

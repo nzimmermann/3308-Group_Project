@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -25,11 +24,11 @@ import java.util.ArrayList;
  * @author Alex Cordero
  */
 public class CustomAdapter extends BaseAdapter{
-    ArrayList<String> result;
-    ArrayList<String> imgresult;
-    ArrayList<String> urlresult;
-    String nextquery;
-    Context context;
+    private ArrayList<String> result;
+    private ArrayList<String> imgresult;
+    private ArrayList<String> urlresult;
+    private String nextquery;
+    private Context context;
     private static LayoutInflater inflater=null;
     /**
      *
@@ -50,7 +49,7 @@ public class CustomAdapter extends BaseAdapter{
         urlresult = urlList;
         result.add("Next Page");
         imgresult.add("https://cdn4.iconfinder.com/data/icons/miu/22/circle_next_arrow_disclosure-128.png");
-        Integer pagenum = 1;
+        Integer pagenum;
         Character last = query.charAt(query.length()-1);
         if(Character.isDigit(last)) {
             pagenum = (int) last;
@@ -114,10 +113,10 @@ public class CustomAdapter extends BaseAdapter{
         holder.tv.setText(result.get(position));
         Picasso.with(context)
                 .load(imgresult.get(position))
-                .resize(30, 30)
+                .resize(50, 50)
                 .centerCrop()
                 .into(holder.img);
-        if(result.get(position) != "Next Page") {
+        if(!result.get(position).equals("Next Page")) {
             rowView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {

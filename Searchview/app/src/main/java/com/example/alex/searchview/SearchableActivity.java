@@ -1,6 +1,5 @@
 package com.example.alex.searchview;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
@@ -9,33 +8,19 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.webkit.JavascriptInterface;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
-import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Searchable Activity used to load list layout and start searches.
@@ -47,18 +32,14 @@ import java.util.HashMap;
  */
 public class SearchableActivity extends ListActivity {
 
-    /// These 3 Strings represent the strings in the JSON Object
-    private static final String TAG_TITLE = "title";
-    private static final String TAG_SOURCE_URL = "Source URL";
-    private static final String TAG_IMAGE_URL = "Image URL";
     private ProgressDialog pDialog;
-    Context context;
-    ListView lv;
-    ArrayList<String> recipeList;
-    ArrayList<String> imgList;
-    ArrayList<String> urlList;
-    Boolean no_results = true;
-    String query;
+    private Context context;
+    private ListView lv;
+    private ArrayList<String> recipeList;
+    private ArrayList<String> imgList;
+    private ArrayList<String> urlList;
+    private Boolean no_results = true;
+    private String query;
 
     @Override
     /**
@@ -183,7 +164,7 @@ public class SearchableActivity extends ListActivity {
                 this.mException=e;
             }
             /// Only parse through the JSON Array if there are recipes in it
-            if(no_results == false) {
+            if(!no_results) {
                 try {
                     JSONArray recipes = object.getJSONArray("recipes");
                     for (int i = 1; i <= object.getInt("count"); ++i) {
