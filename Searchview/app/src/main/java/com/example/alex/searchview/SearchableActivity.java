@@ -172,9 +172,7 @@ public class SearchableActivity extends ListActivity {
                         String image_url = r.getString("image_url");
                         String source_url = r.getString("source_url");
                         String title = r.getString("title");
-                        //HashMap<String, String> recipe = new HashMap<String, String>();
                         recipeList.add(title);
-                        Log.w("myApp", "Imageview");
                         imgList.add(image_url);
                         urlList.add(source_url);
                     }
