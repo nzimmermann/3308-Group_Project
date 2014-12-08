@@ -38,6 +38,7 @@ The goal of this project was to develop a simple mobile application for the Andr
 
 \parindent 30pt
 The following is a brief list of the methodologies used used throughout the development of the app:
+
 \begin{itemize}
 \item Peer Code Review
 \item Test Driven Development (a lot of it)
@@ -45,7 +46,7 @@ The following is a brief list of the methodologies used used throughout the deve
 \item Agile Development model
 \item Pair Programming
 \end{itemize}
-Rather, we assigned our most experienced java programmer the task of coding, a designer with the task of designing, and a project manager to keep check on everything and direct workflow.
+We assigned our most experienced java programmer the task of coding, a designer with the task of designing, and a project manager to keep check on everything and direct workflow.
 
 \newpage
 \item $\mathbf{3.\ Software\ Tools\ Employed:}$
@@ -53,14 +54,14 @@ Rather, we assigned our most experienced java programmer the task of coding, a d
 \parindent 30pt
 The following is a brief list of the Software tools and suites used throughout the development of the app.
 \begin{itemize}
-\item Eclipse IDE with Android SDK plugin
+\item Android Studio
 \item Food2Fork API
 	\begin{enumerate}
 	\item Provided an effective means with which to get recipes when queried with ingredients
 	\item Trivializes the neccessity to use an offline or locally created database
 	\item Provided experience developing with a third party API
 	\end{enumerate}
-\item JavaDoc via Eclipse Plugin
+\item JavaDoc via Android Studio
 	\begin{enumerate}
 	\item Changes documented in git repo
 	\end{enumerate}
@@ -78,57 +79,41 @@ The following is a brief list of the Software tools and suites used throughout t
 \item Lint Static Analysis
 \end{itemize}
 
-\newpage
 \item $\mathbf{4.\ Test\ Driven\ Development:}$
 \parindent 30pt
 
 The development of our app was handled in concise test cases such that progress was made one small step at a time; never too much too quickly. \
 \begin{enumerate}
 \item Test Case 0: Basic Test, Compilation (recurring)
-	\begin{enumerate}
-	\item Code Correctness
-		\begin{enumerate}
-		\item Is the code syntactically correct?
-		\item Does the code correctly call Android functions and classes without error?
-		\end{enumerate}
-	\end{enumerate}
-
-\item Test Case 1: Assuming previous test passes
-	\begin{enumerate}
-	\item API usage
-		\begin{enumerate}
-		\item Does the code correctly call the Food2Fork API?
-		\item Does the code correctly pass user-inputted queries to the API?
-		\item Does the code correctly parse the JSON returned by the API?
-		\end{enumerate}
-	\end{enumerate}
+\item Test Case 1: Food2Fork API Usage
 \item Test Case 2: (basic functionality) Assuming previous tests pass
-	\begin{enumerate}
-	\item Running the App in the SDK Emulator
-		\begin{enumerate}
-		\item Does the app install in the emulator without fail?
-		\item Does the app start in the emulator without error?
-		\item Are the app's UI elements correctly layed out in the emulator?
-		\end{enumerate}
-	\item Using the App in the SDK Emulator
-		\begin{enumerate}
-		\item Does the app accept correctly accept a query in the text field without fail?
-		\item Does the app return a list of recipes pertaining to the query entered without fail?
-		\item When a recipe is selected, does the app correctly launch the Emulator's default web browser to the webpage containing the recipe without fail?
-		\end{enumerate}
-	\end{enumerate}
 \item Test Case 3: (basic functionality part deux) Assuming previous tests pass
-	\begin{enumerate}
-	\item Repeat all sub-tests from Test Case 2 on a live Android phone rather than an emulator
-	\item Repeat all sub-tests from Test Case 2 on a live Android tablet rather than an emulator
-	\end{enumerate}
 \item Test Case 4: (minor functionality), Assuming previous tests pass
-	\begin{enumerate}
-	\item Does the app use the correct display icon?
-	\item Does the app rotate correctly if the device's orientation changes without fail?
-	\item Does the correctly call third-party web browsers other than the system default without fail?
-	\end{enumerate}
 \end{enumerate}
+
+\newpage
+\begin{center}
+	\begin{tabular}{ | l | l | p{2.5in} | p{2.5in} |}
+	\hline
+	Case 	& Test & Test Description & If Fail	\\	\hline
+	0	& a & Is the code syntatically correct? & Static Analysis, Peer Code Review \\ \hline
+	0	& b & Does the code correctly call Android functions and classes without error? & Revert to previous test, repeat \\ \hline
+	1	& a & Does the code correctly call the Food2Fork API? & Revert to test 0.a, consult Food2Fork API documentation \\ \hline
+	1	& b & Does the code correctly pass user-inputted queries to the API? & Revert to test 0.a \\ \hline
+	1	& c & Does the code correctly parse the JSON returned by the API? & Revert to test 0.a \\ \hline
+	2	& a & Does the app install in the emulator without error? & Static Analysis, Peer Code Review \\ \hline
+	2	& b & Does the app start in the emulator without error? & Revert to test 0.a \\ \hline
+	2	& c & Are the app's UI elements correctly layed out in the emulator? & Revert to test 0.a \\ \hline
+	2	& d & Does the app correctly accept a query in the text field without fail? & Revert to test 0.a \\ \hline
+	2	& e & Does the app correctly return a list of recipes pertaining to the query entered without fail? & Revert to tests 0.a, 1.c \\ \hline
+	2	& f & When a recipe is selected, does the app correctly launch the Emulator's default web browser to the webpage containing the recipe without fail? & Revert to test 1.a \\ \hline
+	3	& a & Repeat all tests from Case 2 on a live Android phone rather than an emulator & Revert to test 2.a \\ \hline
+	3	& b & Repeat all tests from Case 2 on a live Android tablet rahter than an emulator & Revert to test 2.a \\ \hline
+	4	& a & Does the app use the correct display icon? & Revert to test 0.a \\ \hline
+	4	& b & Does the app rotate correctly if the device's orientation changes without fail? & Revert to test 0.a \\ \hline
+	4	& c & Does the app correctly call third-party web browsers other than the system default without fail? & Revert to test 0.a \\ \hline
+	\end{tabular}
+\end{center}
 
 \end{itemize}
 \end{document}
