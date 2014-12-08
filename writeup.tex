@@ -1,0 +1,134 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[pdftex]{graphicx}
+
+\topmargin=0.0in
+\oddsidemargin=0.0in
+\evensidemargin=0.0in
+\textwidth=6.5in
+\marginparwidth=0.5in
+
+\headheight=0pt
+\headsep=0pt
+\topmargin=0in
+\textheight=9.0in
+
+\begin{document}
+\noindent
+Zachariah Collins	\hfill CSCI 3308 \\
+Alexander Cordero	\hfill Main Project \\
+Daniel Strawn		\hfill Software Development Tools and Methods \\
+
+\begin{center}
+\LARGE
+Fridge Forager
+\\
+\Large
+Project Writeup
+\end{center}
+
+\begin{itemize}
+\large
+\item $\mathbf{1.\ Introduction:}$
+
+\parindent 30pt
+The goal of this project was to develop a simple mobile application for the Android platform, the purpose of which is to return possible meal recipes when given one or multiple ingredients as search queries.
+\
+
+\item $\mathbf{2.\ Methodologies\ Employed:}$
+
+\parindent 30pt
+The following is a brief list of the methodologies used used throughout the development of the app:
+\begin{itemize}
+\item Peer Code Review
+\item Test Driven Development (a lot of it)
+\item Remote Development and Collaboration via project tracker and cvs \ldots
+\item Agile Development model
+\item Pair Programming
+\end{itemize}
+Rather, we assigned our most experienced java programmer the task of coding, a designer with the task of designing, and a project manager to keep check on everything and direct workflow.
+
+\newpage
+\item $\mathbf{3.\ Software\ Tools\ Employed:}$
+
+\parindent 30pt
+The following is a brief list of the Software tools and suites used throughout the development of the app.
+\begin{itemize}
+\item Eclipse IDE with Android SDK plugin
+\item Food2Fork API
+	\begin{enumerate}
+	\item Provided an effective means with which to get recipes when queried with ingredients
+	\item Trivializes the neccessity to use an offline or locally created database
+	\item Provided experience developing with a third party API
+	\end{enumerate}
+\item JavaDoc via Eclipse Plugin
+	\begin{enumerate}
+	\item Changes documented in git repo
+	\end{enumerate}
+\item LaTeX
+	\begin{enumerate}
+	\item Used to write this document
+	\end{enumerate}
+\item Git Content Tracking System hosted via GitHub.com
+\item Trello for project management
+	\begin{enumerate}
+	\item Cross Platform
+	\item Android App available
+	\item Emailed participants with project updates, changes, and to-dos
+	\end{enumerate}
+\item Lint Static Analysis
+\end{itemize}
+
+\newpage
+\item $\mathbf{4.\ Test\ Driven\ Development:}$
+\parindent 30pt
+
+The development of our app was handled in concise test cases such that progress was made one small step at a time; never too much too quickly. \
+\begin{enumerate}
+\item Test Case 0: Basic Test, Compilation (recurring)
+	\begin{enumerate}
+	\item Code Correctness
+		\begin{enumerate}
+		\item Is the code syntactically correct?
+		\item Does the code correctly call Android functions and classes without error?
+		\end{enumerate}
+	\end{enumerate}
+
+\item Test Case 1: Assuming previous test passes
+	\begin{enumerate}
+	\item API usage
+		\begin{enumerate}
+		\item Does the code correctly call the Food2Fork API?
+		\item Does the code correctly pass user-inputted queries to the API?
+		\item Does the code correctly parse the JSON returned by the API?
+		\end{enumerate}
+	\end{enumerate}
+\item Test Case 2: (basic functionality) Assuming previous tests pass
+	\begin{enumerate}
+	\item Running the App in the SDK Emulator
+		\begin{enumerate}
+		\item Does the app install in the emulator without fail?
+		\item Does the app start in the emulator without error?
+		\item Are the app's UI elements correctly layed out in the emulator?
+		\end{enumerate}
+	\item Using the App in the SDK Emulator
+		\begin{enumerate}
+		\item Does the app accept correctly accept a query in the text field without fail?
+		\item Does the app return a list of recipes pertaining to the query entered without fail?
+		\item When a recipe is selected, does the app correctly launch the Emulator's default web browser to the webpage containing the recipe without fail?
+		\end{enumerate}
+	\end{enumerate}
+\item Test Case 3: (basic functionality part deux) Assuming previous tests pass
+	\begin{enumerate}
+	\item Repeat all sub-tests from Test Case 2 on a live Android phone rather than an emulator
+	\item Repeat all sub-tests from Test Case 2 on a live Android tablet rather than an emulator
+	\end{enumerate}
+\item Test Case 4: (minor functionality), Assuming previous tests pass
+	\begin{enumerate}
+	\item Does the app use the correct display icon?
+	\item Does the app rotate correctly if the device's orientation changes without fail?
+	\item Does the correctly call third-party web browsers other than the system default without fail?
+	\end{enumerate}
+\end{enumerate}
+
+\end{itemize}
+\end{document}
