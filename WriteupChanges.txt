@@ -1,0 +1,3 @@
+Changes from original project proposal and now.
+Link to deployment environment: https://github.com/nzimmermann/Fridge-Forager/tree/master/Searchview/app/build/outputs/apk
+Links to Trello and Github.
