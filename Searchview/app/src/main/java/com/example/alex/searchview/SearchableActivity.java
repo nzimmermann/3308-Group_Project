@@ -137,7 +137,6 @@ public class SearchableActivity extends ListActivity {
             {
                 url = new URL(urlString);
                 urlConnection = (HttpURLConnection) url.openConnection();
-                Log.w("myApp", urlConnection.toString());
                 urlConnection.setRequestMethod("GET");
                 urlConnection.setDoOutput(true);
                 urlConnection.setDoInput(true);
